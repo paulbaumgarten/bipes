@@ -10381,6 +10381,93 @@ Blockly.Blocks['encoder_read'] = {
   }
 };
 
+Blockly.Blocks['joystick_init'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Init Joystick");
+
+    this.appendValueInput("x_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("X pin");
+
+    this.appendValueInput("y_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Y pin");
+
+    this.appendValueInput("button_pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Button pin");
+
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Initialize joystick with X, Y and button pins.');
+  }
+};
+
+Blockly.Blocks['joystick_x'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Joystick X direction");
+    this.setOutput(true, "Number");
+    this.setTooltip('Read joystick X direction: LEFT=-1, CENTER=0, RIGHT=1.');
+  }
+};
+
+Blockly.Blocks['joystick_y'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Joystick Y direction");
+    this.setOutput(true, "Number");
+    this.setTooltip('Read joystick Y direction: UP=1, CENTER=0, DOWN=-1.');
+  }
+};
+
+Blockly.Blocks['joystick_button'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Joystick button pressed");
+    this.setOutput(true, "Boolean");
+    this.setTooltip('True when joystick button is pressed.');
+  }
+};
+
+Blockly.Blocks['joystick_x_is'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Joystick X is")
+        .appendField(new Blockly.FieldDropdown([
+          ["LEFT", "-1"],
+          ["CENTER", "0"],
+          ["RIGHT", "1"]
+        ]), "DIR");
+    this.setOutput(true, "Boolean");
+    this.setTooltip('True when joystick X matches selected direction.');
+  }
+};
+
+Blockly.Blocks['joystick_y_is'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Joystick Y is")
+        .appendField(new Blockly.FieldDropdown([
+          ["UP", "1"],
+          ["CENTER", "0"],
+          ["DOWN", "-1"]
+        ]), "DIR");
+    this.setOutput(true, "Boolean");
+    this.setTooltip('True when joystick Y matches selected direction.');
+  }
+};
+
 //Stepper Motor
 //
 //
@@ -11968,4 +12055,3 @@ Blockly.Blocks['math_max'] = {
     this.setHelpUrl("");
   }
 };
-

@@ -1325,6 +1325,32 @@
       <block type="encoder_read"></block>
   </category>
 
+  <category name="Joystick">
+      <label text="2-axis analog joystick with push button"></label>
+      <block type="joystick_init">
+        <value name="x_pin">
+          <shadow type="pinout">
+            <field name="PIN"></field>
+          </shadow>
+        </value>
+        <value name="y_pin">
+          <shadow type="pinout">
+            <field name="PIN"></field>
+          </shadow>
+        </value>
+        <value name="button_pin">
+          <shadow type="pinout">
+            <field name="PIN"></field>
+          </shadow>
+        </value>
+      </block>
+      <block type="joystick_x"></block>
+      <block type="joystick_y"></block>
+      <block type="joystick_button"></block>
+      <block type="joystick_x_is"></block>
+      <block type="joystick_y_is"></block>
+  </category>
+
   <category name="Camera (ESP32CAM)">
       <label text="OV2640 Camera on ESP32-CAM Board"></label>
         <button text="Load example: esp32cam" callbackKey="loadExample"></button>

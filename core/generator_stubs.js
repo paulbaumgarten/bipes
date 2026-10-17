@@ -5411,6 +5411,70 @@ Blockly.Python['encoder_read'] = function(block) {
   return [code, Blockly.Python.ORDER_NONE];
 };
 
+Blockly.Python['joystick_init'] = function(block) {
+  var x_pin = Blockly.Python.valueToCode(block, 'x_pin', Blockly.Python.ORDER_ATOMIC);
+  var y_pin = Blockly.Python.valueToCode(block, 'y_pin', Blockly.Python.ORDER_ATOMIC);
+  var button_pin = Blockly.Python.valueToCode(block, 'button_pin', Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_['import_pin_adc'] = 'from machine import Pin, ADC';
+  Blockly.Python.definitions_['import_joystick_controls_class'] = `
+class Controls:
+    def __init__(self, x_pin, y_pin, button_pin):
+        self._joy_x = ADC(Pin(x_pin))
+        self._joy_x.atten(ADC.ATTN_11DB)
+        self._joy_y = ADC(Pin(y_pin))
+        self._joy_y.atten(ADC.ATTN_11DB)
+        self._joy_btn = Pin(button_pin, Pin.IN, Pin.PULL_UP)
+
+    @property
+    def x(self):
+        x_val = self._joy_x.read_u16()
+        x_dir = -1 if x_val < 20000 else (1 if x_val > 40000 else 0)
+        return x_dir
+
+    @property
+    def y(self):
+        y_val = self._joy_y.read_u16()
+        y_dir = 1 if y_val < 20000 else (-1 if y_val > 40000 else 0)
+        return y_dir
+
+    @property
+    def button(self):
+        btn_pressed = not self._joy_btn.value()
+        return btn_pressed
+  `;
+
+  var code = `controls = Controls(${x_pin}, ${y_pin}, ${button_pin})\n`;
+  return code;
+};
+
+Blockly.Python['joystick_x'] = function(block) {
+  var code = 'controls.x';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['joystick_y'] = function(block) {
+  var code = 'controls.y';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['joystick_button'] = function(block) {
+  var code = 'controls.button';
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['joystick_x_is'] = function(block) {
+  var dir = block.getFieldValue('DIR');
+  var code = `(controls.x == ${dir})`;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
+Blockly.Python['joystick_y_is'] = function(block) {
+  var dir = block.getFieldValue('DIR');
+  var code = `(controls.y == ${dir})`;
+  return [code, Blockly.Python.ORDER_NONE];
+};
+
 
 //Stepper Motor
 Blockly.Python['stepper_init'] = function(block) {

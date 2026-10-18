@@ -5573,6 +5573,74 @@ Blockly.Python['dc_motor_init'] = function(block) {
 	return code;
   };
 
+Blockly.Python['dfplayer_init'] = function(block) {
+  var pin = Blockly.Python.valueToCode(block, 'pin', Blockly.Python.ORDER_ATOMIC);
+
+  Blockly.Python.definitions_['import_dfplayer_machine'] = 'from machine import Pin, UART';
+  Blockly.Python.definitions_['dfplayer_class'] = `
+class DFPlayerMiniTX:
+    def __init__(self, tx_pin, uart_id=1, baudrate=9600):
+        self._uart = UART(uart_id, baudrate=baudrate, tx=Pin(tx_pin))
+
+    def _send_cmd(self, cmd, param=0):
+        param = int(param) & 0xFFFF
+        frame = bytearray(10)
+        frame[0] = 0x7E
+        frame[1] = 0xFF
+        frame[2] = 0x06
+        frame[3] = cmd & 0xFF
+        frame[4] = 0x00
+        frame[5] = (param >> 8) & 0xFF
+        frame[6] = param & 0xFF
+
+        checksum = (0 - (frame[1] + frame[2] + frame[3] + frame[4] + frame[5] + frame[6])) & 0xFFFF
+        frame[7] = (checksum >> 8) & 0xFF
+        frame[8] = checksum & 0xFF
+        frame[9] = 0xEF
+
+        self._uart.write(frame)
+
+    def play_track(self, track):
+        track = min(2999, max(0, int(track)))
+        self._send_cmd(0x03, track)
+
+    def set_volume(self, volume):
+        volume = min(30, max(0, int(volume)))
+        self._send_cmd(0x06, volume)
+
+    def next(self):
+        self._send_cmd(0x01, 0)
+
+    def pause(self):
+        self._send_cmd(0x0E, 0)
+  `;
+
+  var code = 'dfplayer = DFPlayerMiniTX(' + pin + ')\n';
+  return code;
+};
+
+Blockly.Python['dfplayer_play_track'] = function(block) {
+  var track = Blockly.Python.valueToCode(block, 'track', Blockly.Python.ORDER_ATOMIC) || '0';
+  var code = 'dfplayer.play_track(' + track + ')\n';
+  return code;
+};
+
+Blockly.Python['dfplayer_set_volume'] = function(block) {
+  var volume = Blockly.Python.valueToCode(block, 'volume', Blockly.Python.ORDER_ATOMIC) || '20';
+  var code = 'dfplayer.set_volume(' + volume + ')\n';
+  return code;
+};
+
+Blockly.Python['dfplayer_next'] = function(block) {
+  var code = 'dfplayer.next()\n';
+  return code;
+};
+
+Blockly.Python['dfplayer_pause'] = function(block) {
+  var code = 'dfplayer.pause()\n';
+  return code;
+};
+
 
 //ESP32 specific functions
 

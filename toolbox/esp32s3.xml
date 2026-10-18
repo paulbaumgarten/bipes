@@ -1470,6 +1470,36 @@ _
     </block>
   </category>
 
+  <category name="DFPlayer Mini">
+      <label text="DFPlayer Mini MP3 Player (TX-only)"></label>
+      <block type="dfplayer_init">
+        <value name="pin">
+          <shadow type="pinout">
+            <field name="PIN"></field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="dfplayer_play_track">
+        <value name="track">
+          <shadow type="math_number">
+            <field name="NUM">0</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="dfplayer_set_volume">
+        <value name="volume">
+          <shadow type="math_number">
+            <field name="NUM">20</field>
+          </shadow>
+        </value>
+      </block>
+
+      <block type="dfplayer_next"></block>
+      <block type="dfplayer_pause"></block>
+  </category>
+
   <category name="Sounds">
         <label text="Sounds and RTTTL:"></label>
         <label text="Ring Tone Text Transfer Language (RTTTL) "></label>

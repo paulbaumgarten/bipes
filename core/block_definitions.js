@@ -10632,6 +10632,79 @@ Blockly.Blocks['dc_motor_stop'] = {
   }
 };
 
+Blockly.Blocks['dfplayer_init'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("Init DFPlayer Mini");
+
+    this.appendValueInput("pin")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Data pin (to DFPlayer RX)");
+
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Initialize DFPlayer Mini using TX-only serial output.');
+  }
+};
+
+Blockly.Blocks['dfplayer_play_track'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("DFPlayer play track");
+
+    this.appendValueInput("track")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Track (0..2999)");
+
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Play track number 0 to 2999.');
+  }
+};
+
+Blockly.Blocks['dfplayer_set_volume'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("DFPlayer set volume");
+
+    this.appendValueInput("volume")
+        .setCheck("Number")
+        .setAlign(Blockly.ALIGN_RIGHT)
+        .appendField("Volume (0..30)");
+
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Set volume from 0 (mute) to 30 (max).');
+  }
+};
+
+Blockly.Blocks['dfplayer_next'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("DFPlayer play next");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Play next track.');
+  }
+};
+
+Blockly.Blocks['dfplayer_pause'] = {
+  init: function() {
+    this.setColour(135);
+    this.appendDummyInput()
+        .appendField("DFPlayer pause");
+    this.setPreviousStatement(true);
+    this.setNextStatement(true);
+    this.setTooltip('Pause playback.');
+  }
+};
+
 
 //ESP32 specific functions
 
